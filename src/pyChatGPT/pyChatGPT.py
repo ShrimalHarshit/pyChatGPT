@@ -13,6 +13,7 @@ class ChatGPT:
         self,
         session_token: str = None,
         cf_clearance_token: str = None,
+        cf_bm_token: str = None,
         email: str = None,
         password: str = None,
         conversation_id: str = None,
@@ -63,9 +64,10 @@ class ChatGPT:
             self._login(email, password)
         else:
             self.cf_clearance_token = cf_clearance_token
+            self.cf_bm_token = cf_bm_token
             self.headers[
                 'Cookie'
-            ] = f'__Secure-next-auth.session-token={self.session_token};cf_clearance={self.cf_clearance_token}'
+            ] = f'__Secure-next-auth.session-token={self.session_token};cf_clearance={self.cf_clearance_token};__cf_bm={self.cf_bm_token}'
             self.refresh_auth()
 
     def _login(self, email: str, password: str) -> str:

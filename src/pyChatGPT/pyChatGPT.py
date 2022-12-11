@@ -12,6 +12,7 @@ class ChatGPT:
     def __init__(
         self,
         session_token: str = None,
+        cf_clearance_token: str = None,
         email: str = None,
         password: str = None,
         conversation_id: str = None,
@@ -55,14 +56,16 @@ class ChatGPT:
         self.session.proxies = self.proxies
 
         self.session_token = session_token
+        
         if not self.session_token:
             if not email or not password:
                 raise ValueError('No session token or login credentials are provideddd')
             self._login(email, password)
         else:
+            self.cf_clearance_token = cf_clearance_token
             self.headers[
                 'Cookie'
-            ] = f'__Secure-next-auth.session-token={self.session_token}'
+            ] = f'__Secure-next-auth.session-token={self.session_token};cf_clearance={self.cf_clearance_token}'
             self.refresh_auth()
 
     def _login(self, email: str, password: str) -> str:
